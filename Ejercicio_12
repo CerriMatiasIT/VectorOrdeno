@@ -1,0 +1,189 @@
+class Habitacion:
+    """Clase auxiliar que representa una habitación individual"""
+    def __init__(self, numero):
+        self.numero = numero
+        self.ocupada = False
+        self.mayores = 0
+        self.menores = 0
+    
+    def total_personas(self):
+        return self.mayores + self.menores
+    
+    def ocupar(self, mayores, menores):
+        """Intenta ocupar la habitación"""
+        if self.ocupada:
+            return False, "La habitación ya está ocupada"
+        
+        total = mayores + menores
+        if total > 8:
+            return False, "Excede el máximo de 8 personas"
+        
+        if total <= 0:
+            return False, "Debe haber al menos una persona"
+        
+        if mayores < 0 or menores < 0:
+            return False, "Las cantidades no pueden ser negativas"
+        
+        self.ocupada = True
+        self.mayores = mayores
+        self.menores = menores
+        return True, "Habitación ocupada exitosamente"
+    
+    def desocupar(self):
+        """Libera la habitación"""
+        self.ocupada = False
+        self.mayores = 0
+        self.menores = 0
+
+
+class Hotel:
+    def __init__(self, cantidad_habitaciones):
+        """Crea el hotel con la cantidad de habitaciones especificada"""
+        if cantidad_habitaciones <= 0:
+            raise ValueError("La cantidad de habitaciones debe ser positiva")
+        
+        self.cantidad_habitaciones = cantidad_habitaciones
+        self.habitaciones = []
+        
+        # Crear las habitaciones
+        for i in range(cantidad_habitaciones):
+            self.habitaciones.append(Habitacion(i + 1))  # Numeración 1..n
+    
+    def ocupar_habitacion(self, numero_habitacion, mayores, menores):
+        """
+        Ocupa una habitación específica con la cantidad de personas
+        Retorna: (éxito, mensaje)
+        """
+        if numero_habitacion < 1 or numero_habitacion > self.cantidad_habitaciones:
+            return False, f"Habitación {numero_habitacion} no existe"
+        
+        habitacion = self.habitaciones[numero_habitacion - 1]
+        return habitacion.ocupar(mayores, menores)
+    
+    def ocupar_primera_disponible(self, mayores, menores):
+        """
+        Ocupa la primera habitación disponible que encuentre
+        Retorna: (éxito, mensaje, número_habitación)
+        """
+        for i, habitacion in enumerate(self.habitaciones):
+            if not habitacion.ocupada:
+                exito, mensaje = habitacion.ocupar(mayores, menores)
+                if exito:
+                    return True, mensaje, i + 1
+                else:
+                    return False, mensaje, None
+        
+        return False, "No hay habitaciones disponibles", None
+    
+    def total_personas(self):
+        """Devuelve la cantidad total de personas en todas las habitaciones"""
+        total = 0
+        for habitacion in self.habitaciones:
+            if habitacion.ocupada:
+                total += habitacion.total_personas()
+        return total
+    
+    def habitaciones_con_mayores(self, cantidad_mayores):
+        """
+        Devuelve la cantidad de habitaciones ocupadas con exactamente
+        la cantidad de mayores indicada
+        """
+        contador = 0
+        for habitacion in self.habitaciones:
+            if habitacion.ocupada and habitacion.mayores == cantidad_mayores:
+                contador += 1
+        return contador
+    
+    def distribucion_habitaciones_por_personas(self):
+        """
+        Devuelve un arreglo de longitud 9, donde en la posición i se guarda
+        la cantidad de habitaciones con i personas (0 a 8)
+        """
+        # Inicializar arreglo con 9 posiciones en 0
+        distribucion = [0] * 9
+        
+        for habitacion in self.habitaciones:
+            if habitacion.ocupada:
+                total = habitacion.total_personas()
+                if 0 <= total <= 8:
+                    distribucion[total] += 1
+        
+        return distribucion
+    
+    def mostrar_estado(self):
+        """Método auxiliar para mostrar el estado actual del hotel"""
+        print(f"\n=== Estado del Hotel ===")
+        print(f"Habitaciones totales: {self.cantidad_habitaciones}")
+        print(f"Habitaciones ocupadas: {sum(1 for h in self.habitaciones if h.ocupada)}")
+        print(f"Total de personas: {self.total_personas()}")
+        
+        print("\nDetalle por habitación:")
+        for i, habitacion in enumerate(self.habitaciones):
+            estado = "Ocupada" if habitacion.ocupada else "Libre"
+            if habitacion.ocupada:
+                print(f"  Hab {i+1}: {estado} - Mayores: {habitacion.mayores}, "
+                      f"Menores: {habitacion.menores}, Total: {habitacion.total_personas()}")
+            else:
+                print(f"  Hab {i+1}: {estado}")
+        
+        print(f"\nDistribución por cantidad de personas:")
+        distribucion = self.distribucion_habitaciones_por_personas()
+        for i in range(9):
+            if distribucion[i] > 0:
+                print(f"  {i} persona(s): {distribucion[i]} habitación(es)")
+
+
+# === Programa principal para probar ===
+
+def main():
+    # Crear hotel con 5 habitaciones
+    hotel = Hotel(5)
+    
+    print("=== HOTEL LOS ALAMOS ===")
+    hotel.mostrar_estado()
+    
+    # Ocupar algunas habitaciones
+    print("\n--- Ocupando habitaciones ---")
+    
+    # Ocupar habitación 1 con 2 mayores y 1 menor
+    exito, msg = hotel.ocupar_habitacion(1, 2, 1)
+    print(f"Ocupar Hab 1 (2 mayores, 1 menor): {msg}")
+    
+    # Ocupar habitación 2 con 3 mayores
+    exito, msg = hotel.ocupar_habitacion(2, 3, 0)
+    print(f"Ocupar Hab 2 (3 mayores, 0 menores): {msg}")
+    
+    # Ocupar primera disponible con 1 mayor y 2 menores
+    exito, msg, num = hotel.ocupar_primera_disponible(1, 2)
+    print(f"Ocupar primera disponible (1 mayor, 2 menores): {msg} - Habitación {num}")
+    
+    # Intentar ocupar una habitación que excede el máximo
+    exito, msg = hotel.ocupar_habitacion(4, 5, 4)  # 9 personas, excede
+    print(f"Intentar ocupar Hab 4 (5 mayores, 4 menores): {msg}")
+    
+    # Ocupar una habitación con 0 personas (inválido)
+    exito, msg = hotel.ocupar_habitacion(4, 0, 0)
+    print(f"Intentar ocupar Hab 4 (0 personas): {msg}")
+    
+    # Ocupar habitación válida
+    exito, msg = hotel.ocupar_habitacion(4, 2, 2)
+    print(f"Ocupar Hab 4 (2 mayores, 2 menores): {msg}")
+    
+    # Mostrar estado final
+    hotel.mostrar_estado()
+    
+    # Probar método específico: habitaciones con cierta cantidad de mayores
+    print("\n--- Consultas específicas ---")
+    print(f"Habitaciones con exactamente 2 mayores: {hotel.habitaciones_con_mayores(2)}")
+    print(f"Habitaciones con exactamente 3 mayores: {hotel.habitaciones_con_mayores(3)}")
+    print(f"Habitaciones con exactamente 0 mayores: {hotel.habitaciones_con_mayores(0)}")
+    
+    # Mostrar distribución por personas
+    print("\nDistribución detallada (0-8 personas):")
+    distribucion = hotel.distribucion_habitaciones_por_personas()
+    for i in range(9):
+        print(f"  Habitaciones con {i} personas: {distribucion[i]}")
+
+
+if __name__ == "__main__":
+    main()
