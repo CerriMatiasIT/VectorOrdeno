@@ -91,9 +91,3 @@ Gráfico: Tiempo vs Tamaño del vector
 - Los resultados experimentales confirman la teoría de complejidad.  
 
 ---
-
-👉 Este README.md sirve como **documentación base** para el repositorio. Cada compañero puede agregar sus resultados de pruebas y gráficos en una carpeta `results/` o `docs/`.
-
----
-
-¿Querés que te arme también un **template de README.md con secciones vacías** (tipo guía) para que cada integrante del grupo solo complete su parte sin modificar la estructura?
