@@ -1,5 +1,4 @@
 import random
-import time
 #hola
 class Vector:
     def __init__(self):
@@ -9,7 +8,17 @@ class Vector:
         pass
 
     def orden_insercion(self):
-        pass
+        n = len(self.vector)
+
+        for i in range(1, n):
+            x = self.vector[i]
+            j = i - 1
+
+            while j >= 0 and x < self.vector[j]:
+                self.vector[j + 1] = self.vector[j]
+                j = j - 1
+
+            self.vector[j + 1] = x
 
     def orden_burbujeo(self):
         inicio = time.time()  
