@@ -1,10 +1,16 @@
 import random
+import time
 class Vector:
     def __init__(self):
         self.vector = []
     
     def orden_seleccion(self):
-        pass
+        for i in range(len(self.vector)):
+            min_idx = i
+            for j in range(i+1, len(self.vector)):
+                if self.vector[j] < self.vector[min_idx]:
+                    min_idx = j
+            self.vector[i], self.vector[min_idx] = self.vector[min_idx], self.vector[i]
 
     def orden_insercion(self):
         n = len(self.vector)
@@ -19,26 +25,26 @@ class Vector:
 
             self.vector[j + 1] = x
 
-   def orden_burbujeo(self):
-    inicio = time.time()  
-    n = len(self.vector)
+    def orden_burbujeo(self):
+        inicio = time.time()  
+        n = len(self.vector)
 
-    for i in range(n):
-        intercambio = False
+        for i in range(n):
+            intercambio = False
             
-        for j in range(0, n - i - 1):
-            if self.vector[j] > self.vector[j + 1]:
-                self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
-                intercambio = True
+            for j in range(0, n - i - 1):
+                if self.vector[j] > self.vector[j + 1]:
+                    self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
+                    intercambio = True
             
-        if not intercambio:
-            break
-        fin = time.time() 
+            if not intercambio:
+                break
+            fin = time.time() 
     
     # Imprimir el tiempo de ejecución en milisegundos
-    print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
+        print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
    
-    return self.vector
+        return self.vector
     
     
     # Métodos para generar vectores
@@ -50,3 +56,13 @@ class Vector:
     
     def generar_random(self, n):
         self.vector = [random.randint(0, 100) for _ in range(n)]
+
+vector = Vector()
+vector.generar_random(100)
+print(vector.vector)
+
+vector.generar_random(100)
+inicio = time.time()
+vector.orden_insercion()
+fin = time.time()
+print(f" Se ordeno en : {(fin - inicio)*1000} milisegundos, con Algoritmo Seleccion")
