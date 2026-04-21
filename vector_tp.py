@@ -9,26 +9,26 @@ class Vector:
     def orden_insercion(self):
         pass
 
-    def orden_burbujeo(self):
-           inicio = time.time()  
-    n = len(vector)
-    
+   def orden_burbujeo(self):
+    inicio = time.time()  
+    n = len(self.vector)
+
     for i in range(n):
         intercambio = False
-        
+            
         for j in range(0, n - i - 1):
-            if vector[j] > vector[j + 1]:
-                vector[j], vector[j + 1] = vector[j + 1], vector[j]
+            if self.vector[j] > self.vector[j + 1]:
+                self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
                 intercambio = True
-        
+            
         if not intercambio:
             break
-    fin = time.time()  
+        fin = time.time() 
     
     # Imprimir el tiempo de ejecución en milisegundos
     print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
-
-    return vector
+   
+    return self.vector
     
     
     # Métodos para generar vectores
