@@ -10,7 +10,26 @@ class Vector:
         pass
 
     def orden_burbujeo(self):
-        pass
+           inicio = time.time()  
+    n = len(vector)
+    
+    for i in range(n):
+        intercambio = False
+        
+        for j in range(0, n - i - 1):
+            if vector[j] > vector[j + 1]:
+                vector[j], vector[j + 1] = vector[j + 1], vector[j]
+                intercambio = True
+        
+        if not intercambio:
+            break
+    fin = time.time()  
+    
+    # Imprimir el tiempo de ejecución en milisegundos
+    print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
+
+    return vector
+    
     
     # Métodos para generar vectores
     def generar_ordenado(self, n):
