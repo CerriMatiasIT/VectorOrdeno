@@ -1,4 +1,5 @@
 import random
+import time
 #hola
 class Vector:
     def __init__(self):
@@ -10,26 +11,26 @@ class Vector:
     def orden_insercion(self):
         pass
 
-   def orden_burbujeo(self):
-    inicio = time.time()  
-    n = len(self.vector)
+    def orden_burbujeo(self):
+        inicio = time.time()  
+        n = len(self.vector)
 
-    for i in range(n):
-        intercambio = False
-            
-        for j in range(0, n - i - 1):
-            if self.vector[j] > self.vector[j + 1]:
-                self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
-                intercambio = True
-            
-        if not intercambio:
-            break
+        for i in range(n):
+            intercambio = False
+
+            for j in range(0, n - i - 1):
+                if self.vector[j] > self.vector[j + 1]:
+                    self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
+                    intercambio = True
+
+            if not intercambio:
+                break
         fin = time.time() 
     
-    # Imprimir el tiempo de ejecución en milisegundos
-    print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
+        # Imprimir el tiempo de ejecución en milisegundos
+        print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
    
-    return self.vector
+        return self.vector
     
     
     # Métodos para generar vectores
@@ -41,3 +42,18 @@ class Vector:
     
     def generar_random(self, n):
         self.vector = [random.randint(0, 100) for _ in range(n)]
+
+
+v=Vector()
+
+v.generar_ordenado(5000)
+print(v.vector)
+v.orden_burbujeo()
+
+v.generar_desordenado(5000)
+print(v.vector)
+v.orden_burbujeo()
+
+v.generar_random(5000)
+print(v.vector)
+v.orden_burbujeo()
