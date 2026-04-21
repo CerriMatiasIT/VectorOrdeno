@@ -1,4 +1,5 @@
 import random
+import time
 #hola
 class Vector:
     def __init__(self):
