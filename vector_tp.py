@@ -1,4 +1,5 @@
 import random
+import time
 class Vector:
     def __init__(self):
         self.vector = []
@@ -28,20 +29,20 @@ class Vector:
         inicio = time.time()  
         n = len(self.vector)
 
-    for i in range(n):
-        intercambio = False
+        for i in range(n):
+            intercambio = False
             
-        for j in range(0, n - i - 1):
-            if self.vector[j] > self.vector[j + 1]:
-                self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
-                intercambio = True
+            for j in range(0, n - i - 1):
+                if self.vector[j] > self.vector[j + 1]:
+                    self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
+                    intercambio = True
             
-        if not intercambio:
-            break
-        fin = time.time() 
+            if not intercambio:
+                break
+            fin = time.time() 
     
     # Imprimir el tiempo de ejecución en milisegundos
-    print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
+            print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
    
         return self.vector
     
