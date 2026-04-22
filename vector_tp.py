@@ -5,12 +5,7 @@ class Vector:
         self.vector = []
     
     def orden_seleccion(self):
-        for i in range(len(self.vector)):
-            min_idx = i
-            for j in range(i+1, len(self.vector)):
-                if self.vector[j] < self.vector[min_idx]:
-                    min_idx = j
-            self.vector[i], self.vector[min_idx] = self.vector[min_idx], self.vector[i]
+        pass
 
     def orden_insercion(self):
         n = len(self.vector)
