@@ -25,32 +25,49 @@ class Vector:
     def __init__(self, datos):
         self.datos = datos
 
-    def seleccion(self):
-        # Ordenamiento por selección
-        for i in range(len(self.datos)):
-            min_idx = i
-            for j in range(i+1, len(self.datos)):
-                if self.datos[j] < self.datos[min_idx]:
-                    min_idx = j
-            self.datos[i], self.datos[min_idx] = self.datos[min_idx], self.datos[i]
-
-    def insercion(self):
-        # Ordenamiento por inserción
-        for i in range(1, len(self.datos)):
-            key = self.datos[i]
-            j = i - 1
-            while j >= 0 and self.datos[j] > key:
-                self.datos[j+1] = self.datos[j]
-                j -= 1
-            self.datos[j+1] = key
-
-    def burbujeo(self):
-        # Ordenamiento burbujeo
-        n = len(self.datos)
+    def orden_seleccion(self):
+        n = len(self.vector)
         for i in range(n):
-            for j in range(0, n-i-1):
-                if self.datos[j] > self.datos[j+1]:
-                    self.datos[j], self.datos[j+1] = self.datos[j+1], self.datos[j]
+            min_idx = i
+            for j in range(i + 1, n):
+                if self.vector[j] < self.vector[min_idx]:
+                    min_idx = j
+            self.vector[i], self.vector[min_idx] = self.vector[min_idx], self.vector[i]
+        return self.vector
+
+    def orden_insercion(self):
+        n = len(self.vector)
+
+        for i in range(1, n):
+            x = self.vector[i]
+            j = i - 1
+
+            while j >= 0 and x < self.vector[j]:
+                self.vector[j + 1] = self.vector[j]
+                j = j - 1
+
+            self.vector[j + 1] = x
+
+    def orden_burbujeo(self):
+        inicio = time.time()  
+        n = len(self.vector)
+
+        for i in range(n):
+            intercambio = False
+            
+            for j in range(0, n - i - 1):
+                if self.vector[j] > self.vector[j + 1]:
+                    self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
+                    intercambio = True
+            
+            if not intercambio:
+                break
+            fin = time.time() 
+    
+    # Imprimir el tiempo de ejecución en milisegundos
+            print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
+   
+        return self.vector
 ```
 
 ---
@@ -65,21 +82,11 @@ Cada caso se prueba con los tres métodos de ordenamiento y se mide el tiempo de
 
 ---
 
-### 📊 Resultados Experimentales
+## 📊 Resultados Experimentales
 
-Se midió el tiempo de ejecución para distintos tamaños de `N` (ejemplo: 100, 500, 1000, 5000).  
-Los resultados se graficaron en función de **T = f(N)**.
+![Gráfico 1 – Relación T=f(N)](./grafico1.png)
 
-Ejemplo de gráfico esperado:
-
-```
-Gráfico: Tiempo vs Tamaño del vector
-- Selección: curva cuadrática
-- Inserción: curva cuadrática
-- Burbujeo: curva cuadrática
-```
-
-*(Aquí se pueden adjuntar imágenes de los gráficos generados con Excel, matplotlib o similar.)*
+*Gráfico 1. Relación entre el tamaño del vector (N) y el tiempo de ejecución (T) para los algoritmos de selección, inserción y burbujeo. Se observa un crecimiento cuadrático, confirmando la complejidad teórica O(N²).*
 
 ---
 
