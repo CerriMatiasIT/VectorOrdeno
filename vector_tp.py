@@ -47,6 +47,28 @@ class Vector:
         self.vector = [random.randint(0, 100) for _ in range(n)]
 
 # ================== PRUEBAS ==================
+# ===== VERIFICACIÓN DE QUE ORDENA CORRECTAMENTE =====
+print("\n=== COMPROBANDO QUE LOS ALGORITMOS ORDENAN BIEN ===")
+
+v_test = Vector()
+v_test.generar_random(5)
+print("Vector original:", v_test.vector)
+v_test.orden_seleccion()
+print("Selección:    ", v_test.vector)
+
+v_test = Vector()
+v_test.generar_random(5)
+print("Vector original:", v_test.vector)
+v_test.orden_insercion()
+print("Inserción:    ", v_test.vector)
+
+v_test = Vector()
+v_test.generar_random(5)
+print("Vector original:", v_test.vector)
+v_test.orden_burbujeo()
+print("Burbujeo:     ", v_test.vector)
+
+# ===== STRESS TESTS =====
 N = 5000
 
 def medir_tiempo(metodo, nombre):
@@ -96,3 +118,7 @@ medir_tiempo(v.orden_insercion, "Inserción")
 v = Vector()
 v.generar_random(N)
 medir_tiempo(v.orden_burbujeo, "Burbujeo")
+
+
+
+
