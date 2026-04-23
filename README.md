@@ -21,10 +21,13 @@ Además:
 ### 🛠️ Implementación
 
 ```python
-class Vector:
-    def __init__(self, datos):
-        self.datos = datos
+import random
+import time
 
+class Vector:
+    def __init__(self):
+        self.vector = []
+    
     def orden_seleccion(self):
         n = len(self.vector)
         for i in range(n):
@@ -37,46 +40,53 @@ class Vector:
 
     def orden_insercion(self):
         n = len(self.vector)
-
         for i in range(1, n):
             x = self.vector[i]
             j = i - 1
-
             while j >= 0 and x < self.vector[j]:
                 self.vector[j + 1] = self.vector[j]
-                j = j - 1
-
+                j -= 1
             self.vector[j + 1] = x
 
     def orden_burbujeo(self):
-        inicio = time.time()  
         n = len(self.vector)
-
         for i in range(n):
             intercambio = False
-            
             for j in range(0, n - i - 1):
                 if self.vector[j] > self.vector[j + 1]:
                     self.vector[j], self.vector[j + 1] = self.vector[j + 1], self.vector[j]
                     intercambio = True
-            
             if not intercambio:
                 break
-            fin = time.time() 
-    
-    # Imprimir el tiempo de ejecución en milisegundos
-            print(f" Se ordeno en : {(fin - inicio) * 1000:.8f} milisegundos, con Algoritmo Burbujeo")
-   
         return self.vector
+
+    def generar_ordenado(self, n):
+        self.vector = list(range(n))
+    
+    def generar_desordenado(self, n):
+        self.vector = list(range(n, 0, -1))
+    
+    def generar_random(self, n):
+        self.vector = [random.randint(0, 100) for _ in range(n)]
 ```
 
 ---
 
 ### 🧪 Casos de Prueba
 
-- **Vector ordenado:** `[1, 2, 3, 4, 5]`  
-- **Vector desordenado:** `[5, 4, 3, 2, 1]`  
-- **Vector aleatorio:** `[3, 1, 4, 5, 2]`  
+#### 1. Verificación de correcto ordenamiento (N pequeño)
+Se generan vectores aleatorios de tamaño 5, se ordenan con cada método y se imprimen antes y después para comprobación visual.
+
+#### 2. Medición de tiempos (N = 5000)
+Para cada tipo de vector (ordenado, desordenado invertido, aleatorio) se ejecutan los tres algoritmos y se mide el tiempo en milisegundos. Cada medición parte de un vector nuevo para garantizar condiciones iniciales idénticas.
+
+**Ejemplo de salida:**
+```
+--- Vector RANDOM (N=5000) ---
+Selección tardó 45.67890 ms
+Inserción tardó 38.12345 ms
+Burbujeo tardó 89.45678 ms
+```
 
 Cada caso se prueba con los tres métodos de ordenamiento y se mide el tiempo de ejecución.
 
